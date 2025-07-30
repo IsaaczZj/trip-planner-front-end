@@ -13,6 +13,7 @@ import { useState } from "react";
 export function App() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
   const [isGuestModalOpen, setisGuestModalOpen] = useState(false);
+  const [emailsToInvite, setEmailsToInvite] = useState<string[]>([]);
 
   function openGuestsInput(e: React.FormEvent) {
     e.preventDefault();
@@ -28,6 +29,27 @@ export function App() {
   }
   function closeGuestModal() {
     setisGuestModalOpen(false);
+  }
+
+  function addEmailToInvite(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const email = data.get("email")?.toString();
+    if (!email) {
+      return alert("Preencha um email");
+    }
+    if (emailsToInvite.includes(email)) {
+      return alert("Coloque um email diferente");
+    }
+    setEmailsToInvite([...emailsToInvite, email]);
+    e.currentTarget.reset();
+  }
+
+  function removeEmailFromToInvite(emailToRemove: string) {
+    const removedEmail = emailsToInvite.filter(
+      (email) => email !== emailToRemove
+    );
+    setEmailsToInvite(removedEmail);
   }
 
   return (
@@ -137,22 +159,35 @@ export function App() {
               Os convidados irão receber e-mails para confirmar a participação
               na viagem.
             </p>
+
             {/* ÁREA DOS EMAILS MODAL*/}
             <div className="flex flex-wrap gap-2">
-              <div className="px-2.5 py-1.5 bg-zinc-800 flex items-center gap-2.5 rounded-lg">
-                <span className="text-zinc-300">jessica.white44@yahoo.com</span>
+              {emailsToInvite.map((email) => (
+                <div
+                  key={email}
+                  className="px-2.5 py-1.5 bg-zinc-800 flex items-center gap-2.5 rounded-lg"
+                >
+                  <span className="text-zinc-300">{email}</span>
 
-                <X className="text-zinc-400" />
-              </div>
+                  <X
+                    className="text-zinc-400 cursor-pointer"
+                    onClick={() => removeEmailFromToInvite(email)}
+                  />
+                </div>
+              ))}
             </div>
 
             <div className="w-full h-px bg-zinc-800 my-6"></div>
 
-            <form className="p-2.5 bg-zinc-950 border-zinc-800 rounded-lg flex items-center gap-2">
+            <form
+              onSubmit={addEmailToInvite}
+              className="p-2.5 bg-zinc-950 border-zinc-800 rounded-lg flex items-center gap-2"
+            >
               <AtSign className="text-zinc-400 size-7" />
               <input
-                type="text"
+                type="email"
                 placeholder="Digite o email do convidado"
+                name="email"
                 className="text-md outline-none placeholder:text-zinc-400 w-full"
               />
               <button className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400 cursor-pointer">
