@@ -2,18 +2,21 @@
 
 @theme {
   --font-sans: "Inter", sans-serif;
-  --color-*: initial;
   --color-white: #ffffff;
-  --color-lime-300: #BEF264;
-  --color-lime-950: #1A2E05;
-  --color-zinc-50: #FAFAFA;
-  --color-zinc-100: #F4F4F5;
-  --color-zinc-200: #E4E4E7;
-  --color-zinc-300: #D4D4D8;
-  --color-zinc-400: #A1A1AA;
-  --color-zinc-500: #71717A;
-  --color-zinc-700: #3F3F46;
-  --color-zinc-800: #27272A;
-  --color-zinc-900: #18181B;
-  --color-zinc-950: #09090B;
+  --color-lime-300: #bef264;
+  --color-lime-950: #1a2e05;
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
+}
+
+.bg-image {
+  background: url("./assets/background.png") no-repeat center;
 }
