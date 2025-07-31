@@ -1,5 +1,5 @@
 import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react";
-import { Button } from "../button";
+import { Button } from "../../components/button";
 
 interface DestinationDateStepProps {
   isGuestsInputOpen: boolean;

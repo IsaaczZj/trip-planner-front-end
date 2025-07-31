@@ -1,5 +1,5 @@
 import { Mail, User, X } from "lucide-react";
-import { Button } from "../button";
+import { Button } from "../../components/button";
 interface ConfirmTripModal {
   closeConfirmTripModal: () => void;
   createTrip: (e: React.FormEvent<HTMLFormElement>) => void;

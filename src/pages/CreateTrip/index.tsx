@@ -1,10 +1,10 @@
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { InviteGuestsModal } from "../components/core/InviteGuestsModal";
-import { ConfirmTripModal } from "../components/core/ConfirmTripModal";
-import { DestinationDateStep } from "../components/core/DestinationDateStep";
-import { InviteGuestsStep } from "../components/core/InviteGuestsStep";
+import { InviteGuestsModal } from "./InviteGuestsModal";
+import { ConfirmTripModal } from "./ConfirmTripModal";
+import { DestinationDateStep } from "./DestinationDateStep";
+import { InviteGuestsStep } from "./InviteGuestsStep";
 export function CreateTrip() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
   const [isGuestModalOpen, setisGuestModalOpen] = useState(false);

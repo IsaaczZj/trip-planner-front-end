@@ -1,10 +1,10 @@
 import { Calendar, MapPin, Plus, Settings2 } from "lucide-react";
 import { useState } from "react";
-import { CreateActivityModal } from "../components/core/CreateActivityModal";
-import { ImportantLinks } from "../components/core/ImportantLinks";
-import { Guests } from "../components/core/Guests";
-import { Activities } from "../components/core/Activities";
-import { TripDetailsHeader } from "../components/core/TripsDetailsHeader";
+import { CreateActivityModal } from "./CreateActivityModal";
+import { ImportantLinks } from "./ImportantLinks";
+import { Guests } from "./Guests";
+import { Activities } from "./Activities";
+import { TripDetailsHeader } from "./TripsDetailsHeader";
 
 export function TripDetails() {
   const [isCreateActivityModal, setIsCreateActivityModal] = useState(false);

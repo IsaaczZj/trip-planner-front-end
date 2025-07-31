@@ -1,5 +1,5 @@
 import { Calendar, Tag, X } from "lucide-react";
-import { Button } from "../button";
+import { Button } from "../../components/button";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
