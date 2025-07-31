@@ -1,18 +1,23 @@
 import { Calendar, Tag, X } from "lucide-react";
+import { Button } from "../button";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
 }
 
-export function CreateActivityModal({closeCreateActivityModal}:CreateActivityModalProps) {
+export function CreateActivityModal({
+  closeCreateActivityModal,
+}: CreateActivityModalProps) {
   return (
     <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <h2 className="text-lg font-semibold">Cadastrar atividade</h2>
-          <button className="cursor-pointer opacity-80 text-zinc-400">
-            <X onClick={closeCreateActivityModal} />
-          </button>
+
+          <X
+            onClick={closeCreateActivityModal}
+            className="text-zinc-400 hover:cursor-pointer"
+          />
         </div>
         <p className="text-sm text-zinc-400 mt-2 mb-5">
           Todos convidados podem visualizar as atividades.
@@ -38,9 +43,9 @@ export function CreateActivityModal({closeCreateActivityModal}:CreateActivityMod
               className="text-md outline-none placeholder:text-zinc-400 w-full"
             />
           </div>
-          <button className="bg-lime-300 text-lime-950 rounded-lg px-5 h-14 font-medium flex items-center justify-center gap-2 hover:bg-lime-400 cursor-pointer w-full">
+          <Button variant="primary" className=" h-14">
             Salvar atividade
-          </button>
+          </Button>
         </form>
       </div>
     </div>

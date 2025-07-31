@@ -1,4 +1,5 @@
 import { AtSign, Plus, X } from "lucide-react";
+import { Button } from "../button";
 
 interface InviteGuestsModalProps {
   closeGuestModal: () => void;
@@ -18,19 +19,14 @@ export function InviteGuestsModal({
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <h2 className="text-lg font-semibold">Selecionar convidados</h2>
-          <button
-            className="cursor-pointer opacity-80 text-zinc-400"
-            onClick={closeGuestModal}
-          >
-            <X />
-          </button>
+
+          <X className="cursor-pointer opacity-80 text-zinc-400" onClick={closeGuestModal}/>
         </div>
         <p className="text-sm text-zinc-400 mt-2 mb-5">
           Os convidados irão receber e-mails para confirmar a participação na
           viagem.
         </p>
 
-        
         <div className="flex flex-wrap gap-2">
           {emailsToInvite.map((email) => (
             <div
@@ -60,10 +56,10 @@ export function InviteGuestsModal({
             name="email"
             className="text-md outline-none placeholder:text-zinc-400 w-full"
           />
-          <button className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400 cursor-pointer">
+          <Button variant="primary">
             Convidar
             <Plus className="size-5 " />
-          </button>
+          </Button>
         </form>
       </div>
     </div>
