@@ -1,8 +1,7 @@
 import { Mail, User, X } from "lucide-react";
 interface ConfirmTripModal {
   closeConfirmTripModal: () => void;
-
-  createTrip: () => void;
+  createTrip: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export function ConfirmTripModal({
@@ -52,10 +51,10 @@ export function ConfirmTripModal({
               className="text-md outline-none placeholder:text-zinc-400 w-full"
             />
           </div>
+          <button className="bg-lime-300 text-lime-950 rounded-lg px-5 h-14 font-medium flex items-center justify-center gap-2 hover:bg-lime-400 cursor-pointer w-full">
+            Confirmar criação de viajem
+          </button>
         </form>
-        <button className="bg-lime-300 text-lime-950 rounded-lg px-5 h-14 font-medium flex items-center justify-center gap-2 hover:bg-lime-400 cursor-pointer w-full">
-          Confirmar criação de viajem
-        </button>
       </div>
     </div>
   );

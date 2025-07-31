@@ -30,7 +30,7 @@ export function InviteGuestsModal({
           viagem.
         </p>
 
-        {/* ÁREA DOS EMAILS MODAL*/}
+        
         <div className="flex flex-wrap gap-2">
           {emailsToInvite.map((email) => (
             <div
