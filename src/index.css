@@ -20,3 +20,7 @@
 .bg-image {
   background: url("./assets/background.png") no-repeat center;
 }
+
+input{
+  color-scheme: dark;
+}
