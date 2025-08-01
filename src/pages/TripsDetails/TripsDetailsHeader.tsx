@@ -13,7 +13,7 @@ export function TripDetailsHeader() {
   const [trip, setTrip] = useState<Trip | null>(null);
   const { tripId } = useParams();
 
-  async function getDetaisTrip() {
+  async function getTripDetails() {
     try {
       const response = await api.get(`/trips/${tripId}`);
       console.log(response.data);
@@ -33,7 +33,7 @@ export function TripDetailsHeader() {
     : null;
 
   useEffect(() => {
-    getDetaisTrip();
+    getTripDetails();
   }, [tripId]);
   return (
     <header className="px-6 rounded-lg h-16 bg-zinc-900 shadow-2xl flex items-center justify-between">

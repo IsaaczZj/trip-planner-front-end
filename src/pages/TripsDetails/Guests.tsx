@@ -28,14 +28,14 @@ export function Guests() {
     <div className="space-y-6 ">
       <h3 className="font-semibold text-xl">Convidados</h3>
       <div className="space-y-5">
-        {participants?.map((participant) => (
+        {participants?.map((participant,i) => (
           <div
             key={participant.id}
             className="flex items-center justify-between gap-4"
           >
             <div className="space-y-1.5 max-w-[220px]">
               <span className="text-zinc-100 font-medium block">
-                {participant.name}
+                {participant.name ?? `Convidado ${i}`}
               </span>
               <span className="text-zinc-400 text-sm truncate ">
                 {participant.email}
