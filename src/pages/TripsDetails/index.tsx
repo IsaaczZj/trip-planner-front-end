@@ -1,10 +1,12 @@
 import { Calendar, MapPin, Plus, Settings2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateActivityModal } from "./CreateActivityModal";
 import { ImportantLinks } from "./ImportantLinks";
 import { Guests } from "./Guests";
 import { Activities } from "./Activities";
 import { TripDetailsHeader } from "./TripsDetailsHeader";
+import { useParams } from "react-router";
+import { api } from "../../lib/axios";
 
 export function TripDetails() {
   const [isCreateActivityModal, setIsCreateActivityModal] = useState(false);
@@ -15,6 +17,7 @@ export function TripDetails() {
   function closeCreateActivityModal() {
     setIsCreateActivityModal(false);
   }
+  
 
   return (
     <div className="max-w-7xl px-4 py-10 mx-auto space-y-8">
