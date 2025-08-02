@@ -4,8 +4,12 @@ import "./index.css";
 import { App } from "./App.tsx";
 import { AppRoute } from "./routes/index.tsx";
 
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./libs/react-query.ts";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AppRoute />
+    <QueryClientProvider client={queryClient}>
+      <AppRoute />
+    </QueryClientProvider>
   </StrictMode>
 );

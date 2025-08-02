@@ -1,9 +1,11 @@
-import { Link2, Tag, X } from "lucide-react";
+import { Link2, Tag, Variable, X } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router";
 import z from "zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast, ToastContainer } from "react-toastify";
 
 interface CreateImportantLinksProps {
   setOpenCreateImportantLinkModal: (value: boolean) => void;
@@ -13,38 +15,45 @@ export function CreateImportantLinkModal({
   setOpenCreateImportantLinkModal,
   setLinks,
 }: CreateImportantLinksProps) {
-  const [errors, setErrors] = useState({});
   const { tripId } = useParams();
   const createLinkSchema = z.object({
     title: z.string().min(3, "Digite um título maior"),
     url: z.url().min(3, "Digite uma url válida"),
   });
-  async function creteLink(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setErrors({});
-    try {
-      const data = new FormData(e.currentTarget);
+  const {mutate, isPending} = useMutation({
+    mutationFn: async (formData:FormData) => {
+       
       const newLink = createLinkSchema.parse({
-        title: data.get("title")?.toString(),
-        url: data.get("url")?.toString(),
+        title: formData.get("title")?.toString(),
+        url: formData.get("url")?.toString(),
       });
+      const response = api.post(`/trips/${tripId}/links`, newLink);
+      return {data:(await response).data, newLink}
+    },
+    onSuccess: ({data, newLink}) => {
       setLinks((prev) => [
         ...prev,
         {
-          id: `${Date.now()}`,
+          id: data.id,
           ...newLink,
         },
       ]);
-
-      await api.post(`/trips/${tripId}/links`, newLink);
-      setOpenCreateImportantLinkModal(false);
-    } catch (error) {
+      setOpenCreateImportantLinkModal(false)
+      toast.success('Link criado com sucesso')
+    },
+    onError: (error) => {
       if (error instanceof z.ZodError) {
-        alert(error.message);
+        return toast.error(error.issues[0].message);
+      } else {
+        toast.error("Link nao foi criadp");
       }
-      alert(error);
-      setLinks([])
-    }
+    },
+  });
+  async function creteLink(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget)
+    mutate(data)
+    
   }
 
   return (
@@ -79,9 +88,10 @@ export function CreateImportantLinkModal({
               placeholder="URL"
             />
           </div>
-          <Button>Salvar link</Button>
+          <Button className={`${isPending && 'pointer-events-none'}`}>{isPending ? 'Cadastrando link...': 'Cadastrar link'}</Button>
         </form>
       </div>
+      <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );
 }

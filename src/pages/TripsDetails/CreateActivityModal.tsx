@@ -2,6 +2,7 @@ import { Calendar, Tag, X } from "lucide-react";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router";
+import { useMutation } from "@tanstack/react-query";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
@@ -11,6 +12,9 @@ export function CreateActivityModal({
   closeCreateActivityModal,
 }: CreateActivityModalProps) {
   const { tripId } = useParams();
+
+ 
+
   async function createActivity(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
