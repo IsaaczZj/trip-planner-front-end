@@ -8,6 +8,9 @@ import { InviteGuestsStep } from "./InviteGuestsStep";
 import type { DateRange } from "react-day-picker";
 import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { formatDateRange } from "../../utils/formatDate";
 
 export function CreateTrip() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
@@ -21,6 +24,8 @@ export function CreateTrip() {
   const [tripDates, setTripDates] = useState<DateRange | undefined>(undefined);
 
   const navigate = useNavigate();
+
+  const date = formatDateRange(tripDates);
 
   function openGuestsInput() {
     setIsGuestsInputOpen(true);
@@ -62,7 +67,7 @@ export function CreateTrip() {
     const newTrip = {
       destination,
       starts_at: tripDates?.from,
-      ends_at: tripDates?.to ,
+      ends_at: tripDates?.to,
       emails_to_invite: emailsToInvite,
       owner_name: ownerName,
       owner_email: ownerEmail,
@@ -71,7 +76,7 @@ export function CreateTrip() {
     try {
       const { data } = await api.post("/trips", newTrip);
       console.log(data);
-      return navigate(`/trips/${data.newTrip.id}`)
+      return navigate(`/trips/${data.newTrip.id}`);
     } catch (error) {
       if (error instanceof AxiosError) {
         alert(error.message);
@@ -155,6 +160,8 @@ export function CreateTrip() {
           createTrip={createTrip}
           setOwnerName={setOwnerName}
           setOwnerEmail={setOwnerEmail}
+          destination={destination}
+          date={date}
         />
       )}
     </div>
