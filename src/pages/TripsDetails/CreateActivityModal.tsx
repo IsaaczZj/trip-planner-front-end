@@ -2,7 +2,8 @@ import { Calendar, Tag, X } from "lucide-react";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast, ToastContainer } from "react-toastify";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
@@ -12,13 +13,9 @@ export function CreateActivityModal({
   closeCreateActivityModal,
 }: CreateActivityModalProps) {
   const { tripId } = useParams();
-
- 
-
-  async function createActivity(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    try {
-      const data = new FormData(e.currentTarget);
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: async (data: FormData) => {
       const newActivity = {
         title: data.get("activity_name")?.toString(),
         occurs_at: data.get("occurs_at")?.valueOf(),
@@ -27,13 +24,24 @@ export function CreateActivityModal({
         `/trips/${tripId}/activities`,
         newActivity
       );
-      if (response.status === 200) {
-        alert("Atividade criada com sucesso");
-        return closeCreateActivityModal();
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      return { data: await response.data, newActivity };
+    },
+    onSuccess: ({ newActivity }) => {
+      queryClient.invalidateQueries({ queryKey: ["activities", tripId] });
+      toast.success("Atividade criada com sucesso");
+      setTimeout(() => {
+        closeCreateActivityModal();
+      }, 1500);
+    },
+    onError: (error: any) => {
+      toast.error(error);
+    },
+  });
+
+  async function createActivity(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    mutate(data);
   }
   return (
     <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
@@ -75,6 +83,7 @@ export function CreateActivityModal({
           </Button>
         </form>
       </div>
+      <ToastContainer position="top-center" theme="dark" />
     </div>
   );
 }

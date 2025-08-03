@@ -4,23 +4,22 @@ import { useParams } from "react-router";
 import { api } from "../../lib/axios";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useQuery } from "@tanstack/react-query";
 
 export function Activities() {
-  const [activities, setActivities] = useState<Activity[]>([]);
   const { tripId } = useParams();
 
-  async function getActivitiesDetails() {
-    try {
+  const { data: activities = [], isLoading } = useQuery<Activity[]>({
+    queryKey: ["activities", tripId],
+    queryFn: async () => {
       const { data } = await api.get(`/trips/${tripId}/activities`);
-      console.log(data.activities);
+      return data.activities;
+    },
+  });
 
-      setActivities(data.activities);
-    } catch (error) {}
+  if (isLoading) {
+    return <div className="text-zinc-400 text-3xl">Carregando atividades...</div>;
   }
-
-  useEffect(() => {
-    getActivitiesDetails();
-  }, [tripId]);
 
   return (
     <div className="space-y-8">
@@ -49,7 +48,7 @@ export function Activities() {
                         {activity.title}
                       </span>
                       <span className="text-zinc-400 text-sm ml-auto">
-                        {format(activity.occurs_at, 'HH:MM')}h
+                        {format(activity.occurs_at, "HH:MM")}h
                       </span>
                     </div>
                   </div>

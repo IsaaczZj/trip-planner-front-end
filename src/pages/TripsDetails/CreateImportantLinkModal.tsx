@@ -38,8 +38,10 @@ export function CreateImportantLinkModal({
           ...newLink,
         },
       ]);
-      setOpenCreateImportantLinkModal(false)
       toast.success('Link criado com sucesso')
+      setTimeout(() =>{
+        setOpenCreateImportantLinkModal(false)
+      },2000)
     },
     onError: (error) => {
       if (error instanceof z.ZodError) {
@@ -91,7 +93,7 @@ export function CreateImportantLinkModal({
           <Button className={`${isPending && 'pointer-events-none'}`}>{isPending ? 'Cadastrando link...': 'Cadastrar link'}</Button>
         </form>
       </div>
-      <ToastContainer position="bottom-right" theme="colored" />
+      <ToastContainer position="top-center" theme="dark" />
     </div>
   );
 }

@@ -7,9 +7,14 @@ import { Activities } from "./Activities";
 import { TripDetailsHeader } from "./TripsDetailsHeader";
 import { useParams } from "react-router";
 import { api } from "../../lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
 export function TripDetails() {
   const [isCreateActivityModal, setIsCreateActivityModal] = useState(false);
+  
+
+  const { tripId } = useParams();
+
 
   function openCreateActivityModal() {
     return setIsCreateActivityModal(true);
@@ -17,7 +22,6 @@ export function TripDetails() {
   function closeCreateActivityModal() {
     setIsCreateActivityModal(false);
   }
-  
 
   return (
     <div className="max-w-7xl px-4 py-10 mx-auto space-y-8">
@@ -35,7 +39,7 @@ export function TripDetails() {
             </button>
           </div>
 
-          <Activities />
+          <Activities/>
         </div>
         <div className="w-80 space-y-6">
           <ImportantLinks />
@@ -48,6 +52,7 @@ export function TripDetails() {
 
       {isCreateActivityModal && (
         <CreateActivityModal
+          
           closeCreateActivityModal={closeCreateActivityModal}
         />
       )}
