@@ -9,16 +9,16 @@ import { formatDateRange } from "../../utils/formatDate";
 
 interface DestinationDateStepProps {
   isGuestsInputOpen: boolean;
-  closeGuestsInput: () => void;
-  openGuestsInput: () => void;
+  setIsGuestsInputOpen:React.Dispatch<React.SetStateAction<boolean>>
+  // closeGuestsInput: () => void;
+  // openGuestsInput: () => void;
   setDestination: (destinatiom: string) => void;
   setTripDates: (dates: DateRange | undefined) => void;
   tripDates: DateRange | undefined;
 }
 
 export function DestinationDateStep({
-  openGuestsInput,
-  closeGuestsInput,
+ setIsGuestsInputOpen,
   isGuestsInputOpen,
   setDestination,
   setTripDates,
@@ -95,12 +95,12 @@ export function DestinationDateStep({
       <div className="w-px h-6 bg-zinc-500" />
 
       {isGuestsInputOpen ? (
-        <Button variant="secondary" onClick={closeGuestsInput}>
+        <Button variant="secondary" onClick={() => setIsGuestsInputOpen(false)}>
           Alterar local/data
           <Settings2 className="size-5 " />
         </Button>
       ) : (
-        <Button variant="primary" onClick={openGuestsInput}>
+        <Button variant="primary" onClick={() => setIsGuestsInputOpen(true)}>
           Continuar
           <ArrowRight className="size-5 " />
         </Button>

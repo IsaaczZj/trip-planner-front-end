@@ -2,21 +2,23 @@ import { Mail, User, X } from "lucide-react";
 import { Button } from "../../components/button";
 import type { DateRange } from "react-day-picker";
 interface ConfirmTripModal {
-  closeConfirmTripModal: () => void;
+  setIsConfirmModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   createTrip: (e: React.FormEvent<HTMLFormElement>) => void;
   setOwnerEmail: (ownerEmail: string) => void;
   setOwnerName: (ownerName: string) => void;
   destination: string;
   date: string;
+  isPending: boolean;
 }
 
 export function ConfirmTripModal({
-  closeConfirmTripModal,
+  setIsConfirmModalOpen,
   createTrip,
   setOwnerName,
   setOwnerEmail,
   destination,
   date,
+  isPending,
 }: ConfirmTripModal) {
   return (
     <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
@@ -25,7 +27,7 @@ export function ConfirmTripModal({
           <h2 className="text-lg font-semibold">Confirmar criação da viagem</h2>
           <button
             className="cursor-pointer opacity-80 text-zinc-400"
-            onClick={closeConfirmTripModal}
+            onClick={() => setIsConfirmModalOpen(false)}
           >
             <X />
           </button>
@@ -58,7 +60,14 @@ export function ConfirmTripModal({
               onChange={({ target }) => setOwnerEmail(target.value)}
             />
           </div>
-          <Button className="h-14">Confirmar criação de viajem</Button>
+
+          <Button
+            className={`h-14 ${
+              isPending && "cursor-progress pointer-events-none opacity-50"
+            }`}
+          >
+            {isPending ? "Carregando..." : "Confirmar criação de viajem"}
+          </Button>
         </form>
       </div>
     </div>

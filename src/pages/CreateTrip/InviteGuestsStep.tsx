@@ -2,19 +2,22 @@ import { ArrowRight, UserRoundPlus } from "lucide-react";
 import { Button } from "../../components/button";
 
 interface InviteGuestsStep {
-  openGuestModal: () => void;
-  openConfirmTripModal: () => void;
+  setisGuestModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsConfirmModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   emailsToInvite: string[];
 }
 
 export function InviteGuestsStep({
-  openGuestModal,
+  setisGuestModalOpen,
+  setIsConfirmModalOpen,
   emailsToInvite,
-  openConfirmTripModal,
 }: InviteGuestsStep) {
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-2xl gap-3 -mt-4">
-      <button className="flex flex-1 cursor-pointer" onClick={openGuestModal}>
+      <button
+        className="flex flex-1 cursor-pointer"
+        onClick={() => setisGuestModalOpen(true)}
+      >
         <div className="flex items-center gap-2">
           <UserRoundPlus className="size-5 text-zinc-400" />
           {emailsToInvite.length > 0 ? (
@@ -29,7 +32,7 @@ export function InviteGuestsStep({
         </div>
       </button>
 
-      <Button variant="primary" onClick={openConfirmTripModal}>
+      <Button variant="primary" onClick={() => setIsConfirmModalOpen(true)}>
         Confirmar viagem
         <ArrowRight className="size-5 " />
       </Button>

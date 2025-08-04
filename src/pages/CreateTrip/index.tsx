@@ -8,10 +8,18 @@ import { InviteGuestsStep } from "./InviteGuestsStep";
 import type { DateRange } from "react-day-picker";
 import { api } from "../../lib/axios";
 import { AxiosError } from "axios";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { formatDateRange } from "../../utils/formatDate";
+import { toast, ToastContainer } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
+type NewTrip = {
+  destination: string;
+  starts_at: Date;
+  ends_at: Date;
+  emails_to_invite: string[];
+  owner_name: string;
+  owner_email: string;
+};
 export function CreateTrip() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
   const [isGuestModalOpen, setisGuestModalOpen] = useState(false);
@@ -27,41 +35,38 @@ export function CreateTrip() {
 
   const date = formatDateRange(tripDates);
 
-  function openGuestsInput() {
-    setIsGuestsInputOpen(true);
-  }
-  function closeGuestsInput() {
-    setIsGuestsInputOpen(false);
-  }
-
-  function openGuestModal() {
-    setisGuestModalOpen(true);
-  }
-  function closeGuestModal() {
-    setisGuestModalOpen(false);
-  }
-
-  function openConfirmTripModal() {
-    setIsConfirmModalOpen(true);
-  }
-  function closeConfirmTripModal() {
-    setIsConfirmModalOpen(false);
-  }
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (newTrip: NewTrip) => {
+      const { data } = await api.post("/trips", newTrip);
+      return data;
+    },
+    onSuccess: (data) => {
+      toast.success("Viajem criada com sucesso");
+      setTimeout(() => {  
+        navigate(`/trips/${data.newTrip.id}`);
+      }, 1200);
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+      }
+    },
+  });
 
   async function createTrip(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!destination) {
-      return;
+      return toast.error("Você precisa colocar um destino");
     }
     if (!tripDates?.from || !tripDates.to) {
-      return;
+      return toast.error("Selecione uma data");
     }
     if (emailsToInvite.length === 0) {
-      return;
+      return toast.error("Você precisa convidar pelo menos uma pessoa");
     }
     if (!ownerName || !ownerEmail) {
-      return;
+      return toast.error("Email ou senha vazios");
     }
 
     const newTrip = {
@@ -73,15 +78,7 @@ export function CreateTrip() {
       owner_email: ownerEmail,
     };
 
-    try {
-      const { data } = await api.post("/trips", newTrip);
-      console.log(data);
-      return navigate(`/trips/${data.newTrip.id}`);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        alert(error.message);
-      }
-    }
+    mutate(newTrip);
   }
 
   function addEmailToInvite(e: React.FormEvent<HTMLFormElement>) {
@@ -116,9 +113,8 @@ export function CreateTrip() {
         </div>
 
         <DestinationDateStep
-          closeGuestsInput={closeGuestsInput}
           isGuestsInputOpen={isGuestsInputOpen}
-          openGuestsInput={openGuestsInput}
+          setIsGuestsInputOpen={setIsGuestsInputOpen}
           setDestination={setDestination}
           setTripDates={setTripDates}
           tripDates={tripDates}
@@ -126,9 +122,9 @@ export function CreateTrip() {
 
         {isGuestsInputOpen && (
           <InviteGuestsStep
+            setisGuestModalOpen={setisGuestModalOpen}
             emailsToInvite={emailsToInvite}
-            openConfirmTripModal={openConfirmTripModal}
-            openGuestModal={openGuestModal}
+            setIsConfirmModalOpen={setIsConfirmModalOpen}
           />
         )}
 
@@ -148,7 +144,7 @@ export function CreateTrip() {
       {isGuestModalOpen && (
         <InviteGuestsModal
           addEmailToInvite={addEmailToInvite}
-          closeGuestModal={closeGuestModal}
+          setisGuestModalOpen={setisGuestModalOpen}
           emailsToInvite={emailsToInvite}
           removeEmailFromToInvite={removeEmailFromToInvite}
         />
@@ -156,14 +152,16 @@ export function CreateTrip() {
 
       {isConfirmTripModal && (
         <ConfirmTripModal
-          closeConfirmTripModal={closeConfirmTripModal}
+          setIsConfirmModalOpen={setIsConfirmModalOpen}
           createTrip={createTrip}
           setOwnerName={setOwnerName}
           setOwnerEmail={setOwnerEmail}
           destination={destination}
           date={date}
+          isPending={isPending}
         />
       )}
+      <ToastContainer theme="dark" position="top-center" />
     </div>
   );
 }

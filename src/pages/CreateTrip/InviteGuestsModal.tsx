@@ -2,14 +2,14 @@ import { AtSign, Plus, X } from "lucide-react";
 import { Button } from "../../components/button";
 
 interface InviteGuestsModalProps {
-  closeGuestModal: () => void;
+  setisGuestModalOpen:React.Dispatch<React.SetStateAction<boolean>>
   emailsToInvite: string[];
   addEmailToInvite: (e: React.FormEvent<HTMLFormElement>) => void;
   removeEmailFromToInvite: (email: string) => void;
 }
 
 export function InviteGuestsModal({
-  closeGuestModal,
+ setisGuestModalOpen,
   emailsToInvite,
   addEmailToInvite,
   removeEmailFromToInvite,
@@ -22,7 +22,7 @@ export function InviteGuestsModal({
 
           <X
             className="cursor-pointer opacity-80 text-zinc-400"
-            onClick={closeGuestModal}
+            onClick={() => setisGuestModalOpen(false)}
           />
         </div>
         <p className="text-sm text-zinc-400 mt-2 mb-5">
