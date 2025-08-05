@@ -41,7 +41,7 @@ export function CreateImportantLinkModal({
       toast.success('Link criado com sucesso')
       setTimeout(() =>{
         setOpenCreateImportantLinkModal(false)
-      },2000)
+      },1200)
     },
     onError: (error) => {
       if (error instanceof z.ZodError) {

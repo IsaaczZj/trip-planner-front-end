@@ -3,6 +3,8 @@ import {
   CheckCircle2,
   CircleDashed,
   UserCog,
+  UserPlus,
+  UserPlus2,
   X,
 } from "lucide-react";
 import { Button } from "../../components/button";
@@ -19,6 +21,7 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 import z from "zod";
 import { DeleteParticipantModal } from "./DeleteParticipantModal";
+import { InviteNewParticipant } from "./InviteNewParticipanModal";
 
 export function Guests() {
   const [managerParticipants, setManagerParticipants] = useState(false);
@@ -26,6 +29,9 @@ export function Guests() {
     useState(false);
   const [selectedParticipante, setSelectedParticipant] =
     useState<Participant>();
+
+  const [openInviteNewParticipantModal, setOpenInviteNewParticipantModal] =
+    useState(false);
   const { tripId } = useParams();
   const { data: participants, isLoading } = useQuery<Participant[]>({
     queryKey: ["participants", tripId],
@@ -37,8 +43,6 @@ export function Guests() {
       return response.data.participants;
     },
   });
-
-
 
   return (
     <div className="space-y-6 ">
@@ -70,12 +74,12 @@ export function Guests() {
                 <X
                   className="size-5 text-red-500 animate-bounce cursor-pointer"
                   onClick={() => {
-                    setSelectedParticipant(participant)
+                    setSelectedParticipant(participant);
                     setOpenDeleteParticipantModal(true);
                   }}
                 />
               )}
-              {openDeleteParticipantModal && selectedParticipante &&(
+              {openDeleteParticipantModal && selectedParticipante && (
                 <DeleteParticipantModal
                   closeDeleteParticipantModal={setOpenDeleteParticipantModal}
                   participant={selectedParticipante}
@@ -85,15 +89,30 @@ export function Guests() {
           </div>
         ))}
       </div>
+      {openInviteNewParticipantModal && (
+        <InviteNewParticipant
+          setOpenInviteNewParticipantModal={setOpenInviteNewParticipantModal}
+        />
+      )}
       {managerParticipants ? (
-        <Button
-          variant="primary"
-          className="w-full"
-          onClick={() => setManagerParticipants(false)}
-        >
-          <UserCog className="size-5" />
-          Cancelar
-        </Button>
+        <div className="space-y-4">
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={() => setOpenInviteNewParticipantModal(true)}
+          >
+            <UserPlus className="size-5" />
+            Convidar mais participantes
+          </Button>
+          <Button
+            variant="primary"
+            className="w-full"
+            onClick={() => setManagerParticipants(false)}
+          >
+            <UserCog className="size-5" />
+            Cancelar
+          </Button>
+        </div>
       ) : (
         <Button
           variant="secondary"

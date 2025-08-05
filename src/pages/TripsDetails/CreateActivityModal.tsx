@@ -28,10 +28,8 @@ export function CreateActivityModal({
     },
     onSuccess: ({ newActivity }) => {
       queryClient.invalidateQueries({ queryKey: ["activities", tripId] });
-      toast.success("Atividade criada com sucesso");
-      setTimeout(() => {
-        closeCreateActivityModal();
-      }, 1500);
+
+      closeCreateActivityModal();
     },
     onError: (error: any) => {
       toast.error(error);

@@ -30,6 +30,7 @@ export function UpdateTripModal({ setOpenUpdateTripModal }: UpdateTripModal) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["trip", tripId] });
+      queryClient.invalidateQueries({ queryKey: ["activities", tripId] });
       toast.success("Viajem atualizada com sucesso");
       setTimeout(() => {
         setOpenUpdateTripModal(false);
@@ -52,33 +53,7 @@ export function UpdateTripModal({ setOpenUpdateTripModal }: UpdateTripModal) {
     };
     mutate(updatedTrip);
   }
-  // const queryClient = useQueryClient();
-  // const { mutate } = useMutation({
-  //   mutationFn: async (data: FormData) => {
-  //     const newActivity = {
-  //       title: data.get("activity_name")?.toString(),
-  //       occurs_at: data.get("occurs_at")?.valueOf(),
-  //     };
-  //     const response = await api.post(
-  //       `/trips/${tripId}/activities`,
-  //       newActivity
-  //     );
-  //     return { data: await response.data, newActivity };
-  //   },
-  //   onSuccess: ({ newActivity }) => {
-  //     queryClient.invalidateQueries({ queryKey: ["activities", tripId] });
-  //     toast.success("Atividade criada com sucesso");
-  //   },
-  //   onError: (error: any) => {
-  //     toast.error(error);
-  //   },
-  // });
 
-  // async function createActivity(e: React.FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-  //   const data = new FormData(e.currentTarget);
-  //   mutate(data);
-  // }
   return (
     <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
