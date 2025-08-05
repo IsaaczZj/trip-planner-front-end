@@ -10,8 +10,6 @@ import { formatDateRange } from "../../utils/formatDate";
 interface DestinationDateStepProps {
   isGuestsInputOpen: boolean;
   setIsGuestsInputOpen:React.Dispatch<React.SetStateAction<boolean>>
-  // closeGuestsInput: () => void;
-  // openGuestsInput: () => void;
   setDestination: (destinatiom: string) => void;
   setTripDates: (dates: DateRange | undefined) => void;
   tripDates: DateRange | undefined;

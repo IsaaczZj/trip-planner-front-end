@@ -8,35 +8,33 @@ import { formatDateRange } from "../../utils/formatDate";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import type { DateRange } from "react-day-picker";
+import { UpdateTripModal } from "./UpdateTripModal";
+import { useQuery } from "@tanstack/react-query";
 
 export function TripDetailsHeader() {
-  const [trip, setTrip] = useState<Trip | null>(null);
+  const [openUpdateTripModal, setOpenUpdateTripModal] = useState(false);
+
   const { tripId } = useParams();
 
   async function getTripDetails() {
-    try {
-      const response = await api.get(`/trips/${tripId}`);
-      console.log(response.data);
-
-      setTrip(response.data.trip);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return alert(error.message);
-      }
-    }
+    const response = await api.get(`/trips/${tripId}`);
+    console.log(response.data);
+    return response.data.trip;
   }
 
+  const { data: trip, isLoading } = useQuery<Trip>({
+    queryKey: ["trip", tripId],
+    queryFn: getTripDetails,
+  });
   const formatedDate = trip
     ? format(trip.starts_at, "d ' de ' LLL", { locale: ptBR })
         .concat(" até ")
         .concat(format(trip.ends_at, "d ' de ' LLL", { locale: ptBR }))
     : null;
 
-  useEffect(() => {
-    getTripDetails();
-  }, [tripId]);
   return (
     <header className="px-6 rounded-lg h-16 bg-zinc-900 shadow-2xl flex items-center justify-between">
+      {isLoading && <p>Carregando dados da viajem</p>}
       <div className="flex items-center gap-2">
         <MapPin className="size-5 text-zinc-400" />
         <span className="text-zinc-100 text-lg">{trip?.destination}</span>
@@ -49,12 +47,18 @@ export function TripDetailsHeader() {
           </div>
           <div className="w-px h-6 bg-zinc-500" />
 
-          <Button variant="secondary">
+          <Button
+            variant="secondary"
+            onClick={() => setOpenUpdateTripModal(true)}
+          >
             Alterar local/data
             <Settings2 />
           </Button>
         </div>
       </div>
+      {openUpdateTripModal && (
+        <UpdateTripModal setOpenUpdateTripModal={setOpenUpdateTripModal} />
+      )}
     </header>
   );
 }

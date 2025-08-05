@@ -18,11 +18,15 @@ import {
 } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
 import z from "zod";
+import { DeleteParticipantModal } from "./DeleteParticipantModal";
 
 export function Guests() {
   const [managerParticipants, setManagerParticipants] = useState(false);
+  const [openDeleteParticipantModal, setOpenDeleteParticipantModal] =
+    useState(false);
+  const [selectedParticipante, setSelectedParticipant] =
+    useState<Participant>();
   const { tripId } = useParams();
-  const queryClient = useQueryClient();
   const { data: participants, isLoading } = useQuery<Participant[]>({
     queryKey: ["participants", tripId],
     queryFn: async () => {
@@ -34,27 +38,7 @@ export function Guests() {
     },
   });
 
-  const { mutate } = useMutation({
-    mutationFn: async (id: string) => {
-      const response = await api.delete(`/trips/${tripId}`, {
-        data: { participantId: id },
-      });
-      return { data: await response.data, id };
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["participants", tripId] });
-      toast.success("Participante removido com sucesso");
-    },
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        return toast.error(error.message);
-      }
-    },
-  });
 
-  function deleteParticipant(id: string) {
-    mutate(id);
-  }
 
   return (
     <div className="space-y-6 ">
@@ -85,7 +69,16 @@ export function Guests() {
               {managerParticipants && !participant.is_owner && (
                 <X
                   className="size-5 text-red-500 animate-bounce cursor-pointer"
-                  onClick={() => deleteParticipant(participant.id)}
+                  onClick={() => {
+                    setSelectedParticipant(participant)
+                    setOpenDeleteParticipantModal(true);
+                  }}
+                />
+              )}
+              {openDeleteParticipantModal && selectedParticipante &&(
+                <DeleteParticipantModal
+                  closeDeleteParticipantModal={setOpenDeleteParticipantModal}
+                  participant={selectedParticipante}
                 />
               )}
             </div>
@@ -111,6 +104,7 @@ export function Guests() {
           Gerenciar participantes
         </Button>
       )}
+
       <ToastContainer position="top-center" theme="dark" />
     </div>
   );
