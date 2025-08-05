@@ -29,7 +29,7 @@ export function ImportantLinks() {
           <p className="text-zinc-400 text-center">Nenhum link cadastrado</p>
         )}
         {links.map((link) => (
-          <div className="flex items-center justify-between gap-4">
+          <div key={link.id} className="flex items-center justify-between gap-4">
             <div className="space-y-1.5 max-w-[220px]">
               <span className="text-zinc-100 font-medium block">
                 {link.title}

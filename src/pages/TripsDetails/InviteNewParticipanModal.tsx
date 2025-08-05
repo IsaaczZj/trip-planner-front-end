@@ -56,33 +56,9 @@ export function InviteNewParticipant({
     if (email) mutate(email);
   }
 
-  // const { mutate } = useMutation({
-  //   mutationFn: async (data: FormData) => {
-  //     const newActivity = {
-  //       title: data.get("activity_name")?.toString(),
-  //       occurs_at: data.get("occurs_at")?.valueOf(),
-  //     };
-  //     const response = await api.post(
-  //       `/trips/${tripId}/activities`,
-  //       newActivity
-  //     );
-  //     return { data: await response.data, newActivity };
-  //   },
-  //   onSuccess: ({ newActivity }) => {
-  //     queryClient.invalidateQueries({ queryKey: ["activities", tripId] });
-  //   },
-  //   onError: (error: any) => {
-  //     toast.error(error);
-  //   },
-  // });
-
-  // async function createActivity(e: React.FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-  //   const data = new FormData(e.currentTarget);
-  //   mutate(data);
-  // }
+ 
   return (
-    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
+    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center px-5">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <h2 className="text-lg font-semibold">Convidar novo participante</h2>

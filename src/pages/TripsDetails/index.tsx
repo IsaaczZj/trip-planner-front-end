@@ -15,12 +15,12 @@ export function TripDetails() {
   return (
     <div className="max-w-7xl px-4 py-10 mx-auto space-y-8">
       <TripDetailsHeader />
-      <main className="flex gap-16 px-6">
-        <div className="flex-1 space-y-6">
+      <main className="flex md:flex-row gap-16 px-6 flex-col">
+        <div className="flex-1 space-y-6 ">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
             <button
-              className="bg-lime-300 text-lime-950 rounded-lg px-5 py-3 font-medium flex items-center gap-2 hover:bg-lime-400 cursor-pointer"
+              className="bg-lime-300 ml-6 md:ml-0 text-lime-950 rounded-lg md:px-5 md:py-3 p-1.5  font-medium text-sm md:text-lg flex items-center gap-2 hover:bg-lime-400 cursor-pointer"
               onClick={() => setIsCreateActivityModal(true)}
             >
               <Plus className="size-5" />
@@ -30,6 +30,7 @@ export function TripDetails() {
 
           <Activities />
         </div>
+
         <div className="w-80 space-y-6">
           <ImportantLinks />
 

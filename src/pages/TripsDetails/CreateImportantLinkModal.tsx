@@ -59,7 +59,7 @@ export function CreateImportantLinkModal({
   }
 
   return (
-    <div className="h-screen w-screen bg-black/80 inset-0 fixed flex items-center justify-center">
+    <div className="h-screen w-screen bg-black/80 inset-0 fixed flex items-center justify-center px-5">
       <div className="w-[640px] rounded-xl bg-zinc-900 py-5 px-6 shadow-2xl">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Cadastrar link</h2>

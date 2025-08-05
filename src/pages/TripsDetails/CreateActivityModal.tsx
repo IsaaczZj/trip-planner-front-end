@@ -4,6 +4,7 @@ import { api } from "../../lib/axios";
 import { useParams } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
+import { AxiosError } from "axios";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
@@ -26,23 +27,27 @@ export function CreateActivityModal({
       );
       return { data: await response.data, newActivity };
     },
-    onSuccess: ({ newActivity }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["activities", tripId] });
 
       closeCreateActivityModal();
     },
-    onError: (error: any) => {
-      toast.error(error);
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        return toast.error(error.response?.data?.message);
+      }
+      toast.error("Erro ao criar atividade");
     },
   });
 
   async function createActivity(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+
     mutate(data);
   }
   return (
-    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
+    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center px-5">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <h2 className="text-lg font-semibold">Cadastrar atividade</h2>

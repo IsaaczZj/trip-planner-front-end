@@ -41,7 +41,7 @@ export function DeleteParticipantModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 h-screen w-screen flex items-center justify-center ">
+    <div className="fixed inset-0 bg-black/60 h-screen w-screen flex items-center justify-center px-5">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <div className="flex flex-col">

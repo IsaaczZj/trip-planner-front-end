@@ -55,7 +55,7 @@ export function UpdateTripModal({ setOpenUpdateTripModal }: UpdateTripModal) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
+    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center px-5">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <h2 className="text-lg font-semibold">Cadastrar atividade</h2>
@@ -103,7 +103,7 @@ export function UpdateTripModal({ setOpenUpdateTripModal }: UpdateTripModal) {
             />
           </div>
           <Button variant="primary" className=" h-14">
-            {isPending ? "Carregando..." : "Salvar atividade"}
+            {isPending ? "Carregando..." : "Confirmar nova viajem"}
           </Button>
         </form>
       </div>

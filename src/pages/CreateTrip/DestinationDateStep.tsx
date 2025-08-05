@@ -9,14 +9,14 @@ import { formatDateRange } from "../../utils/formatDate";
 
 interface DestinationDateStepProps {
   isGuestsInputOpen: boolean;
-  setIsGuestsInputOpen:React.Dispatch<React.SetStateAction<boolean>>
+  setIsGuestsInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setDestination: (destinatiom: string) => void;
   setTripDates: (dates: DateRange | undefined) => void;
   tripDates: DateRange | undefined;
 }
 
 export function DestinationDateStep({
- setIsGuestsInputOpen,
+  setIsGuestsInputOpen,
   isGuestsInputOpen,
   setDestination,
   setTripDates,
@@ -32,38 +32,40 @@ export function DestinationDateStep({
   }
 
   return (
-    <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-2xl gap-3">
-      <div className="flex items-center gap-2 flex-1 ">
-        <MapPin className="size-5 text-zinc-400" />
+    <div className="min-h-16 bg-zinc-900 px-3 md:px-4 py-3 md:py-0 rounded-xl flex flex-col md:flex-row items-stretch md:items-center shadow-2xl gap-3">
+     
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <MapPin className="size-4 md:size-5 text-zinc-400 flex-shrink-0" />
         <input
           disabled={isGuestsInputOpen}
-          className="text-lg outline-none placeholder:text-zinc-400 "
+          className="text-sm md:text-lg outline-none placeholder:text-zinc-400 bg-transparent w-full"
           type="text"
           placeholder="Para onde você vai?"
           onChange={({ target }) => setDestination(target.value)}
         />
       </div>
+
       <button
-        className="flex items-center gap-2 cursor-pointer"
+        className="flex items-center gap-2 cursor-pointer justify-start md:justify-center"
         disabled={isGuestsInputOpen}
         onClick={openDatePicker}
       >
-        <Calendar className="size-5 text-zinc-400" />
-        <span className="text-lg text-left text-zinc-400 flex-1 ">
+        <Calendar className="size-4 md:size-5 text-zinc-400 flex-shrink-0" />
+        <span className="text-sm md:text-lg text-left text-zinc-400 truncate">
           {formatDateRange(tripDates)}
         </span>
       </button>
 
       {isDatePickerOpen && (
-        <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
-          <div className="w-[350px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
+        <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center px-4 z-50">
+          <div className="w-full max-w-[350px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-semibold">Selecione a data</h2>
               <button
-                className="cursor-pointer opacity-80 text-zinc-400 "
+                className="cursor-pointer opacity-80 text-zinc-400 hover:opacity-100"
                 onClick={closeDatePicker}
               >
-                <X />
+                <X className="size-5" />
               </button>
             </div>
             <DayPicker
@@ -90,19 +92,30 @@ export function DestinationDateStep({
         </div>
       )}
 
-      <div className="w-px h-6 bg-zinc-500" />
+      <div className="hidden md:block w-px h-6 bg-zinc-500" />
 
-      {isGuestsInputOpen ? (
-        <Button variant="secondary" onClick={() => setIsGuestsInputOpen(false)}>
-          Alterar local/data
-          <Settings2 className="size-5 " />
-        </Button>
-      ) : (
-        <Button variant="primary" onClick={() => setIsGuestsInputOpen(true)}>
-          Continuar
-          <ArrowRight className="size-5 " />
-        </Button>
-      )}
+      <div className="flex-shrink-0">
+        {isGuestsInputOpen ? (
+          <Button
+            variant="secondary"
+            className="w-full md:w-auto text-sm md:text-base h-12 md:h-auto"
+            onClick={() => setIsGuestsInputOpen(false)}
+          >
+            <span className="hidden sm:inline">Alterar local/data</span>
+            <span className="sm:hidden">Alterar</span>
+            <Settings2 className="size-4 md:size-5" />
+          </Button>
+        ) : (
+          <Button
+            variant="primary"
+            className="w-full md:w-auto text-sm md:text-base h-12 md:h-auto"
+            onClick={() => setIsGuestsInputOpen(true)}
+          >
+            Continuar
+            <ArrowRight className="size-4 md:size-5" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

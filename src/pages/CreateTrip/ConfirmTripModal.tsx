@@ -21,7 +21,7 @@ export function ConfirmTripModal({
   isPending,
 }: ConfirmTripModal) {
   return (
-    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center ">
+    <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center px-4">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
           <h2 className="text-lg font-semibold">Confirmar criação da viagem</h2>
