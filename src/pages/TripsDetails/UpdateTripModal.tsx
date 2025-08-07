@@ -58,7 +58,7 @@ export function UpdateTripModal({ setOpenUpdateTripModal }: UpdateTripModal) {
     <div className="fixed inset-0 bg-black/80 h-screen w-screen flex items-center justify-center px-5">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-2xl bg-zinc-900">
         <div className="flex items-center justify-between ">
-          <h2 className="text-lg font-semibold">Cadastrar atividade</h2>
+          <h2 className="text-lg font-semibold">Atualizar dados da viajem</h2>
 
           <X
             onClick={() => setOpenUpdateTripModal(false)}
@@ -66,7 +66,7 @@ export function UpdateTripModal({ setOpenUpdateTripModal }: UpdateTripModal) {
           />
         </div>
         <p className="text-sm text-zinc-400 mt-2 mb-5">
-          Todos convidados podem visualizar as atividades.
+          Todos convidados podem visualizar a viajem modificada.
         </p>
 
         <form onSubmit={updateTrip} className="flex flex-col gap-2 mb-2.5">
